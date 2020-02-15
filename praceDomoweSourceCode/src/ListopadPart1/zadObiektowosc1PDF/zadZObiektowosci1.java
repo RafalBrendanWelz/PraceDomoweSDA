@@ -18,11 +18,12 @@ public class zadZObiektowosci1 {
         wszystkieKonta[2] = new RachunekBankowy(224822, "Rogerson", "Smith");
         wszystkieKonta[3] = new RachunekBankowy(455189, "Jan", "Kowalusyjewowskójczyk");
 
-
         Bank pierwszy = new Bank("Pierwszy",4);
         for (int i = 0; i < 4; i++) {
             pierwszy.konta[i] = wszystkieKonta[i];
         }
+
+
 
         for (int i = 0; i < wszystkieKonta.length; i++) {
             pierwszy.konta[i].wplataPrzelewem(450.20);

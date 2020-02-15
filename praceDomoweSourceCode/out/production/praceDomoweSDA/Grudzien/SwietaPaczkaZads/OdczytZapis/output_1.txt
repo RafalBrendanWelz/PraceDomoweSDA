@@ -1,0 +1,6 @@
+Taka oto linia
+Druga linia
+Trzecia linia
+Kolejna Linia
+To też jest linia
+quit

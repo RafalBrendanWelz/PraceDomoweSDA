@@ -1,57 +1,59 @@
 package ListopadPart1.zadObiektowosc1PDF;
 
 public class RachunekBankowy {
-    String numerKonta;
-    double iloscSrodkow;
-    String imie;
-    String nazwisko;
-    int idKonta;
+    private String numerKonta;
+    private double iloscSrodkow;
+    private String imie;
+    private String nazwisko;
+    private int idKonta;
 
-    static int iloscKont = 0;
+    static int kontaIlosDoID = 0;
 
-    protected String getNumerKonta() {
+
+    public int getIdKonta() {
+        return idKonta;
+    }
+
+    String getNumerKonta() {
         return numerKonta;
     }
 
-    protected double getIloscSrodkow() {
+    private double getIloscSrodkow() {
         return iloscSrodkow;
     }
 
-    protected String getImie() {
+    String getImie() {
         return imie;
     }
 
-    protected String getNazwisko() {
+    String getNazwisko() {
         return nazwisko;
     }
 
-    protected int getIloscKont() {
-        return iloscKont;
-    }
 
 
-    protected RachunekBankowy(int numerKonta, String imie, String nazwisko){
+    RachunekBankowy(int numerKonta, String imie, String nazwisko){
         this.iloscSrodkow = 0;
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.numerKonta = Integer.toString(numerKonta);
-        this.idKonta = iloscKont;
+        this.idKonta = kontaIlosDoID;
 
-        iloscKont++;
+        kontaIlosDoID++;
     }
 
-    protected void rachunekInfo(){
+    void rachunekInfo(){
         System.out.println("Konto bankowe numer: " + getNumerKonta());
         System.out.println("Właściciel: " + getImie() + " " + getNazwisko());
         System.out.println("Stan: " + getIloscSrodkow() + " zł");
         System.out.println("********************** \n");
     }
 
-    protected void wplataPrzelewem (double kwota){
+    void wplataPrzelewem(double kwota){                     //to do czy ma pieniądze (stanKonta > 0 ) i tylko wtedy przelew
         this.iloscSrodkow += kwota;
     }
 
-    protected void przelewOutWyplata (double kwota){
+    void przelewOutWyplata(double kwota){
         this.iloscSrodkow -= kwota;
     }
 

@@ -13,35 +13,35 @@ public class zadOOPokrojone {
     }
 
     private static void zad4() {
-        CzasData urodzinDW = new CzasData( (byte) 11, (byte) 9,1963);
-        CzasData urodzinMi = new CzasData( (byte) 1, (byte) 2,1961);
-        CzasData urodzinKa = new CzasData( (byte) 16, (byte) 4,2000);
-        CzasData urodzinDo = new CzasData( (byte) 4, (byte) 4,1989);
-        CzasData urodzinMa = new CzasData( (byte) 28, (byte) 3,1987);
+        CzasData urodzinAsia = new CzasData( (byte) 11, (byte) 9,1963);
+        CzasData urodzinMirek = new CzasData( (byte) 1, (byte) 2,1961);
+        CzasData urodzinKacper = new CzasData( (byte) 16, (byte) 4,2000);
+        CzasData urodzinDominika = new CzasData( (byte) 4, (byte) 4,1989);
+        CzasData urodzinMarcin = new CzasData( (byte) 28, (byte) 3,1987);
 
 
-        CzasData urodzinMac = new CzasData( (byte) 12, (byte) 9,2001);
-        CzasData urodzinJas = new CzasData( (byte) 29, (byte) 4,2002);
-       
-        CzasData urodzinDomin = new CzasData( (byte) 3, (byte) 12,1996);
-     
+        CzasData urodzinMaciek = new CzasData( (byte) 12, (byte) 9,2001);
+        CzasData urodzinJasmina = new CzasData( (byte) 29, (byte) 4,2002);
+        //CzasData urodzinMonika = new CzasData( (byte) 4, (byte) 3,1999);  //jeszcze niewiadome
+        CzasData urodzinDominik = new CzasData( (byte) 3, (byte) 12,1996);
+        //CzasData urodzinFilipBiedrzyn = new CzasData( (byte) 4, (byte) 3,1992);   //jeszcze niewiadome
 
 
-        urodzinDo.wyswietlA();
-        urodzinDo.wyswietlB();
-        urodzinDo.wyswietlC();
-
-        System.out.println("*************");
-
-        urodzinMa.wyswietlA();
-        urodzinMa.wyswietlB();
-        urodzinMa.wyswietlC();
+        urodzinDominika.wyswietlA();
+        urodzinDominika.wyswietlB();
+        urodzinDominika.wyswietlC();
 
         System.out.println("*************");
 
-        urodzinJas.wyswietlA();
-        urodzinJas.wyswietlB();
-        urodzinJas.wyswietlC();
+        urodzinMarcin.wyswietlA();
+        urodzinMarcin.wyswietlB();
+        urodzinMarcin.wyswietlC();
+
+        System.out.println("*************");
+
+        urodzinJasmina.wyswietlA();
+        urodzinJasmina.wyswietlB();
+        urodzinJasmina.wyswietlC();
 
     }
 

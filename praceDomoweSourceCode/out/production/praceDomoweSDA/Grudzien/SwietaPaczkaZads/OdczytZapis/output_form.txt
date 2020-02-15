@@ -1,0 +1,5 @@
+nr.1: Płeć=Male Wiek=40 Wzrost=164.0 Zarobki=3500 Wykształcenie=Licencjat Zadowolenie(0do100)=78
+nr.2: Płeć=Male Wiek=20 Wzrost=175.0 Zarobki=700 Wykształcenie=Średnie Zadowolenie(0do100)=35
+nr.3: Płeć=Female Wiek=25 Wzrost=168.0 Wykształcenie=Licencjat Zadowolenie(0do100)=75
+nr.4: Płeć=Female Wiek=43 Wzrost=170.0 Wykształcenie=Zawodowe_i_Średnie Zadowolenie(0do100)=60
+nr.5: Płeć=Male Wiek=60 Wzrost=155.0 Zarobki=2000 Wykształcenie=Zawodowe_i_Wyższe Zadowolenie(0do100)=80

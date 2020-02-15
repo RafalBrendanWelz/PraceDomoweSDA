@@ -30,6 +30,11 @@ public class Main {
         zad5Kol11.zad5Main();
             //zadanie 6 jest nowym main jako że aplikacja (jest w folderze KolekcjeListy11 jak i wszystkie inne z powyższych 5 zadań)
 
+        //zadania z pliku "Klasa String, wyrażenia regularne.pdf" są w paczce StringiWyrazReg, dostępne przez oddzielny Main
+        //z tamtej paczki.
+
+        //zadania z pliku "12.Kolekcje, Sety.pdf" są w oddzielnej paczce
+
 
 
     }
