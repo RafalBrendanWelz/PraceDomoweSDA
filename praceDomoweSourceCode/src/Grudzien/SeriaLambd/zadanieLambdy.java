@@ -6,8 +6,7 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.reducing;
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 public class zadanieLambdy {
 
@@ -465,7 +464,15 @@ public class zadanieLambdy {
        // zad10(companies);     // metoda nie chce zadzialac blad unsuported operation
         System.out.println("\n ");
         System.out.println( zad28(companies) + "\n " );
-        System.out.println( zad33(companies) + "L. / samochód" );
+        System.out.println(wlasnZap1(companies));
+
+        System.out.println("\n");
+        for (Map.Entry<String, List<Company>> poz: zad10(companies).entrySet() ) {
+            System.out.println(poz.getKey() + " " + poz.getValue());
+        }
+        System.out.println("\n");
+        System.out.println(zad11(companies));
+
     }
 
     private static void zad1( List<Company> firmy ){
@@ -507,49 +514,25 @@ public class zadanieLambdy {
     }
     private static Map< String, List<Company> > zad10 ( List<Company> firmy){
 
-        Map<String, List<Company> > wynik = new HashMap<>();
-        firmy.forEach(t -> {
-            if ( wynik.containsKey(t.getCityHeadquarters()) ){
-                List<Company> nowa = new LinkedList<>(  wynik.get(t.getCityHeadquarters())  );
-                nowa.add(t);
-                wynik.replace( t.getCityHeadquarters(), nowa );
+        return firmy.stream()
+                .collect( groupingBy( Company::getCityHeadquarters ));
 
-            }else {
-                wynik.put( t.getCityHeadquarters(), Arrays.asList(t) );
-            }
-
-        });
-        return wynik;
     }
-    private static Company zad11 (List<Company> firmy){
-        Double maxymalnyZakup = firmy.stream().map( t -> t.getPurchaseList().stream().mapToDouble(zk -> zk.getProduct().getPrice()*zk.getQuantity()).sum() )
-                .sorted(Double::compareTo).collect(toList()).get(firmy.size()-1);
+    private static Optional<Company> zad11 (List<Company> firmy){
+        return firmy.stream()
+                .sorted(new Comparator<Company>() {
+                    @Override
+                    public int compare(final Company o1, final Company o2) {
+                        double wydateko1 = o1.getPurchaseList().stream().mapToDouble( zak -> zak.getQuantity() * zak.getProduct().getPrice() ).sum();
+                        double wydateko2 = o2.getPurchaseList().stream().mapToDouble( zak -> zak.getQuantity() * zak.getProduct().getPrice() ).sum();
 
-        for (Company fr: firmy) {
-            if ( fr.getPurchaseList().stream().mapToDouble(zk -> zk.getProduct().getPrice()*zk.getQuantity()).sum() ==
-                    maxymalnyZakup ){
-                return fr;
-            }
-        }
-        return null;
+                        return Double.compare(wydateko1, wydateko2)*-1;
+                    }
+                }).findFirst();
+
     }
     private static Company zad12 (List<Company> firmy){
-        Long ileZakupowPonad10000 = firmy.stream().map( t -> t.getPurchaseList().stream().mapToDouble(zk -> zk.getProduct().getPrice()*zk.getQuantity())
-                .filter( wartoscZak -> wartoscZak > 10000 )
-                .count() )
-                .collect(toList()).get(firmy.size()-1) +1;
 
-        for (Company fr: firmy) {
-            if ( fr.getPurchaseList().stream().mapToDouble(zk -> zk.getProduct().getPrice()*zk.getQuantity())
-                    .filter( wartoscZak -> wartoscZak > 10000 ).count() ==
-                    ileZakupowPonad10000 ){
-
-                System.out.println(ileZakupowPonad10000 + "  " + fr);
-                //return fr;
-            }
-        }
-
-        //second way of doing this
         Map<Company, Integer> wynik = new TreeMap<>();
         for (Company cmp : firmy) {
             wynik.put(cmp, cmp.getPurchaseList().stream().mapToInt( lz -> (lz.getQuantity() * lz.getProduct().getPrice() > 10000) ? (1) : (0) ).sum() );
@@ -895,6 +878,115 @@ public class zadanieLambdy {
                     }
                 }).collect(Collectors.toList()).get(0);
     }
+    private static Company zad35(List<Company> firmy){
+        //placa za papier
+        return firmy.stream()
+                .sorted(new Comparator<Company>() {
+                    @Override
+                    public int compare(final Company o1, final Company o2) {
+                        double placaZaPapiero1 = o1.getPurchaseList().stream()
+                                                    .filter(zak -> zak.getProduct().getName().equals("Paper") )
+                                                    .mapToDouble( zak -> zak.getProduct().getPrice() * zak.getQuantity() ).sum();
+
+                        double placaZaPapiero2 = o2.getPurchaseList().stream()
+                                .filter(zak -> zak.getProduct().getName().equals("Paper") )
+                                .mapToDouble( zak -> zak.getProduct().getPrice() * zak.getQuantity() ).sum();
+
+                        return Double.compare(placaZaPapiero1, placaZaPapiero2)*-1;
+                    }
+                }).collect(Collectors.toList()).get(0);
+    }
+    private static List<Product> zad36(List<Company> firmy){
+        //produkty powyzej 50
+        return firmy.stream()
+                .map(fir -> fir.getPurchaseList())
+                .flatMap( ls -> ls.stream() )
+                .filter( zak -> zak.getQuantity()>50 )
+                .map( zak -> zak.getProduct() )
+                .collect(toList());
+    }
+
+    private static Map<String, Double> zad37(List<Company> firmy){
+        //firma i kasa za kawe
+        return firmy.stream()
+                .collect(Collectors.toMap(Company::getName, zadanieLambdy::przerobStreama));
+    }
+    private static Double przerobStreama( Company zakupy ){
+        return zakupy.getPurchaseList().stream()
+                .filter(zak -> zak.getProduct().getName().contains("Coffee"))
+                .mapToDouble( zak -> zak.getQuantity() * zak.getProduct().getPrice() ).sum();
+    }
+
+    private static Map<String, Double> zad38 (List<Company> firmy ){
+        return firmy.stream()
+                .collect( Collectors.toMap( fir -> fir.getName() , zadanieLambdy::sredniaKawaNaPracow ) );
+    }
+    private static Double sredniaKawaNaPracow(Company firma){
+        return firma.getPurchaseList().stream()
+                .filter(zak -> zak.getProduct().getName().contains("Coffee"))
+                .mapToDouble( zak -> zak.getQuantity() * zak.getProduct().getPrice() ).sum() / firma.getEmployees();
+    }
+
+    private static Optional<Product> zad39(List<Company> firmy){
+        //poza paliwem most wanted
+        return firmy.stream()
+                .map( Company::getPurchaseList )
+                .flatMap( Collection::stream )
+                .collect( groupingBy( zak -> zak.getProduct() ) )
+                .entrySet().stream()
+                .sorted(new Comparator<Map.Entry<Product, List<Purchase>>>() {
+                    @Override
+                    public int compare(final Map.Entry<Product, List<Purchase>> o1, final Map.Entry<Product, List<Purchase>> o2) {
+                        double populO1 = o1.getValue().stream().mapToDouble( zak -> zak.getQuantity() ).sum();
+                        double populO2 = o2.getValue().stream().mapToDouble( zak -> zak.getQuantity() ).sum();
+
+                        return Double.compare(populO1, populO2)*-1;
+                    }
+                }).filter( poz -> !poz.getKey().getName().contains("Fuel") )
+                .map( Map.Entry::getKey ).findFirst();
+    }
+    private static List<Product> zad40(List<Company> firmy){
+        return firmy.stream()
+                .map( Company::getPurchaseList )
+                .flatMap( Collection::stream )
+                .collect( groupingBy( zak -> zak.getProduct() ) )
+                .entrySet().stream()
+                    .filter( poz -> znajdzKGiUNIT(poz.getValue())  )
+                    .map(Map.Entry::getKey).collect(toList());
+
+    }
+    private static boolean znajdzKGiUNIT (List<Purchase> zakupy){
+        if ( zakupy.stream().anyMatch(zak -> zak.getUnit().equals(UNIT.KILOGRAM)) && zakupy.stream().anyMatch(zak -> zak.getUnit().equals(UNIT.UNIT)) ){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    private static Map<Company, Double> wlasnZap1 (List<Company> firmy){
+        //firmy + ich laczny wydatek gdzie jako pierwsze sa te z Gdanska
+
+        Map<Company, Double> wynik = new LinkedHashMap<>();
+
+         firmy.stream()
+                .collect( Collectors.toMap(fir -> fir, Company::getPurchaseList) )
+                .entrySet().stream()
+                    .sorted(new Comparator<Map.Entry<Company, List<Purchase>>>() {
+                        @Override
+                        public int compare(final Map.Entry<Company, List<Purchase>> o1, final Map.Entry<Company, List<Purchase>> o2) {
+                            int czyZGdo1 = (o1.getKey().getCityHeadquarters().equals("Gdansk")) ? (0) : (1);
+                            int czyZGdo2 = (o2.getKey().getCityHeadquarters().equals("Gdansk")) ? (0) : (1);
+
+                            return Integer.compare(czyZGdo1, czyZGdo2);
+                        }
+                    }).forEach( poz -> {
+                        wynik.put( poz.getKey(), poz.getValue().stream().mapToDouble( zak -> zak.getQuantity() * zak.getProduct().getPrice() ).sum() );
+                    } );
+
+        return wynik;
+    }
+
+
 
 
 
